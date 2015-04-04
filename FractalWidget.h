@@ -1,5 +1,6 @@
 #ifndef FRACTALWIDGET_H
 #define FRACTALWIDGET_H
+
 #include <QWidget>
 #include "Fractal.h"
 
@@ -10,7 +11,6 @@ class FractalWidget : public QWidget
 public:
 
     explicit FractalWidget(QWidget *parent = 0);
-    ~FractalWidget();
 
     void setFractal(Fractal *fractal);
     void setCalculateThread(QThread *calculateThread);
@@ -29,6 +29,11 @@ private:
     QImage m_fractalImage;
     Fractal *m_fractal;
     QThread *m_calculateThread;
+
+    QRectF increaseZoomRectF(const QPointF &localCenter);
+    QRectF decreaseZoomRectF(const QPointF &localCenter);
+    QPointF getCenterPointF(const QPointF &center);
+
 };
 
 #endif // FRACTALWIDGET_H

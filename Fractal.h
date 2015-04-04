@@ -14,7 +14,6 @@ class Fractal: public QObject
 public:
 
     explicit Fractal(QObject *parent = 0);
-    ~Fractal();
 
     int matrixDimension() const;
     void setMatrixDimension(int matrixDimension);

@@ -10,25 +10,20 @@ Fractal::Fractal(QObject *parent) :
     m_matrixDimension(700),
     m_radius(10),
     m_power(2),
-    m_rect(QRectF(-2.0,-2.0,4.0,4.0)),
-    m_image(QImage(m_matrixDimension,m_matrixDimension,QImage::Format_RGB32))
+    m_rect(QRectF(-2.0, -2.0, 4.0, 4.0)),
+    m_image(QImage(m_matrixDimension, m_matrixDimension, QImage::Format_RGB32))
 {}
-
-Fractal::~Fractal()
-{
-
-}
 
 void Fractal::calculate()
 {
-    prepareMatrix();
+    this->prepareMatrix();
     double stepX = (m_rect.right() - m_rect.left()) / m_matrixDimension;
     double stepY = (m_rect.bottom() - m_rect.top()) / m_matrixDimension;
-    for (double i = 0; i < m_matrixDimension; i++ ) {
+    for (double i = 0; i < m_matrixDimension; i++) {
        m_iterationMatrix.insert(i,calcIterationMatrixLine(m_rect.left() + i*stepX,m_rect.top(),stepY));
-       emit progress(static_cast<int>((i+1.0)*100.0/static_cast<double>(m_matrixDimension)));
+       emit progress(static_cast<int>((i + 1.0)*100.0/static_cast<double>(m_matrixDimension)));
     }
-    printFractal();
+    this->printFractal();
     emit calculateFinished();
 }
 
@@ -51,10 +46,9 @@ int Fractal::calcIterationCount(const double x0, const double y0) const
     double fi;
     double vectorLengthToThePower;
     int iteration;
-    for(iteration = 0; (iteration < m_maxIterationCount)&(vectorLength < m_radius); iteration++)
-    {
+    for (iteration = 0; (iteration < m_maxIterationCount)&(vectorLength < m_radius); iteration++) {
         vectorLength = sqrt(x*x + y*y);
-        fi = atan2(y,x);
+        fi = atan2(y, x);
         vectorLengthToThePower = pow(vectorLength,m_power);
         x = vectorLengthToThePower*(cos(fi*m_power)) + x0;
         y = vectorLengthToThePower*(sin(fi*m_power)) + y0;
@@ -67,17 +61,17 @@ void Fractal::prepareMatrix()
     int max = m_maxIterationCount;
     m_iterationMatrix.clear();
     for (double i = 0; i < m_matrixDimension; i++) {
-        QVector<int> currentVector = QVector<int>(m_matrixDimension,max);
+        QVector<int> currentVector = QVector<int>(m_matrixDimension, max);
         m_iterationMatrix.append(currentVector);
     }
 }
 
 void Fractal::printFractal()
 {
-    QImage image = QImage(m_matrixDimension,m_matrixDimension,QImage::Format_RGB32);
+    QImage image = QImage(m_matrixDimension, m_matrixDimension, QImage::Format_RGB32);
     for (int i = 0; i < m_matrixDimension; i++) {
         for (int j = 0; j < m_matrixDimension; j++) {
-            image.setPixel(i,j,getPixel(i,j).rgb());
+            image.setPixel(i, j, getPixel(i, j).rgb());
         }
     }
     m_image = image;
@@ -145,6 +139,6 @@ QColor ColorRepresentation(int iterationCount)
     if (fraction == 1.0) {
         return QColor(Qt::black);
     } else {
-        return QColor (255*fraction,255-255*fraction,0,255);
+        return QColor(255*fraction, 255-255*fraction, 0, 255);
     }
 }
