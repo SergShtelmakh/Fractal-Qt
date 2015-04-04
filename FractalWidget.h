@@ -26,13 +26,13 @@ protected:
 
 private:
 
-    QImage m_fractalImage;
-    Fractal *m_fractal;
-    QThread *m_calculateThread;
-
     QRectF increaseZoomRectF(const QPointF &localCenter);
     QRectF decreaseZoomRectF(const QPointF &localCenter);
     QPointF getCenterPointF(const QPointF &center);
+
+    QImage m_fractalImage;
+    Fractal *m_fractal;
+    QThread *m_calculateThread;
 
 };
 

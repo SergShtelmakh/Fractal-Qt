@@ -5,7 +5,6 @@
 #include <QMouseEvent>
 #include <QThread>
 
-
 FractalWidget::FractalWidget(QWidget *parent) :
     QWidget(parent),
     m_fractalImage(QImage())
@@ -36,24 +35,24 @@ void FractalWidget::mousePressEvent(QMouseEvent *event)
 QRectF FractalWidget::increaseZoomRectF(const QPointF &localCenter)
 {
     QPointF center = getCenterPointF(localCenter);
-    double height = m_fractal->rect().height()/2.0;
-    double width = m_fractal->rect().width()/2.0;
+    double height = m_fractal->rectf().height()/2.0;
+    double width = m_fractal->rectf().width()/2.0;
     return QRectF(center.x() - width /2.0, center.y() - height /2.0, width, height);
 }
 
 QRectF FractalWidget::decreaseZoomRectF(const QPointF &localCenter)
 {
     QPointF center = getCenterPointF(localCenter);
-    double height = m_fractal->rect().height()*2.0;
-    double width = m_fractal->rect().width()*2.0;
+    double height = m_fractal->rectf().height()*2.0;
+    double width = m_fractal->rectf().width()*2.0;
     return QRectF(center.x() - width /2.0, center.y() - height /2.0, width, height);
 }
 
 QPointF FractalWidget::getCenterPointF(const QPointF &center)
 {
-    double dx = m_fractal->rect().width()/static_cast<double>(this->rect().width());
-    double dy = m_fractal->rect().height()/static_cast<double>(this->rect().height());
-    return QPointF(m_fractal->rect().left() + center.x()*dx, m_fractal->rect().top() + center.y()*dy);
+    double dx = m_fractal->rectf().width()/static_cast<double>(this->rect().width());
+    double dy = m_fractal->rectf().height()/static_cast<double>(this->rect().height());
+    return QPointF(m_fractal->rectf().left() + center.x()*dx, m_fractal->rectf().top() + center.y()*dy);
 }
 
 void FractalWidget::setCalculateThread(QThread *calculateThread)

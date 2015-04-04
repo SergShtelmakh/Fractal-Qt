@@ -24,11 +24,12 @@ private slots:
 
 private:
 
+    void updateFractalProperty(const QRectF &rectf, const int matrixDimension, const double radius, const double power);
+
     Ui::MainWindow *ui;
     Fractal *m_fractal;
     QThread *m_calculateThread;
 
-    void updateFractalProperty(const QRectF &rectf, const int matrixDimension, const double radius, const double power);
 };
 
 #endif // MAINWINDOW_H

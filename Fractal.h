@@ -7,6 +7,7 @@
 #include <QRectF>
 #include <QImage>
 
+
 class Fractal: public QObject
 {
     Q_OBJECT
@@ -18,8 +19,8 @@ public:
     int matrixDimension() const;
     void setMatrixDimension(int matrixDimension);
 
-    QRectF rect() const;
-    void setRect(const QRectF &rect);
+    QRectF rectf() const;
+    void setRect(const QRectF &rectf);
 
     QImage image() const;
 
@@ -30,6 +31,7 @@ public:
     void setPower(double power);
 
     static int maxIterationCount();
+    static void setMaxiterationCount(int maxIterationCount);
 
 public slots:
 
@@ -43,10 +45,11 @@ signals:
 private:
 
     void prepareMatrix();
-    QVector<int> calcIterationMatrixLine(const double x0, const double minY, const double stepY);
     int calcIterationCount(const double x0, const double y0) const;
     void printFractal();
     QColor getPixel(const int x, const int y) const;
+    QVector<int> calcIterationMatrixLine(double lineIndex);
+    void concurrentlyCalcIterationMatrixLine(int &value, int lineIndex, int *base);
 
     static int m_maxIterationCount;
 
@@ -54,8 +57,10 @@ private:
     QVector<QVector<int> > m_iterationMatrix;
     double m_radius;
     double m_power;
-    QRectF m_rect;
+    QRectF m_rectf;
     QImage m_image;
+    double m_stepX;
+    double m_stepY;
 
 };
 
