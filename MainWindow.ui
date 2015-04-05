@@ -6,15 +6,15 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>617</width>
-    <height>423</height>
+    <width>651</width>
+    <height>418</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>FractalQt</string>
   </property>
   <widget class="QWidget" name="centralWidget">
-   <layout class="QHBoxLayout" name="horizontalLayout_9">
+   <layout class="QHBoxLayout" name="horizontalLayout_10">
     <item>
      <layout class="QVBoxLayout" name="verticalLayout_2">
       <item>
@@ -24,8 +24,8 @@
         </property>
         <property name="sizeHint" stdset="0">
          <size>
-          <width>17</width>
-          <height>160</height>
+          <width>267</width>
+          <height>18</height>
          </size>
         </property>
        </spacer>
@@ -41,13 +41,13 @@
         <property name="minimumSize">
          <size>
           <width>270</width>
-          <height>260</height>
+          <height>300</height>
          </size>
         </property>
         <property name="maximumSize">
          <size>
           <width>270</width>
-          <height>260</height>
+          <height>500</height>
          </size>
         </property>
         <property name="baseSize">
@@ -60,6 +60,37 @@
          <string>Fractal settings</string>
         </property>
         <layout class="QVBoxLayout" name="verticalLayout">
+         <item>
+          <layout class="QHBoxLayout" name="horizontalLayout_9">
+           <item>
+            <widget class="QLabel" name="label_9">
+             <property name="text">
+              <string>Max iteration count</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <spacer name="horizontalSpacer_9">
+             <property name="orientation">
+              <enum>Qt::Horizontal</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>10</width>
+               <height>20</height>
+              </size>
+             </property>
+            </spacer>
+           </item>
+           <item>
+            <widget class="QLineEdit" name="maxIterationLineEdit">
+             <property name="text">
+              <string>1000</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
          <item>
           <layout class="QHBoxLayout" name="horizontalLayout_5">
            <item>
@@ -284,6 +315,20 @@
           </layout>
          </item>
          <item>
+          <widget class="QLabel" name="label_8">
+           <property name="text">
+            <string>Calculation progress</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QProgressBar" name="progressBar">
+           <property name="value">
+            <number>0</number>
+           </property>
+          </widget>
+         </item>
+         <item>
           <layout class="QHBoxLayout" name="horizontalLayout_8">
            <item>
             <spacer name="horizontalSpacer_5">
@@ -299,6 +344,13 @@
             </spacer>
            </item>
            <item>
+            <widget class="QPushButton" name="stopPushButton">
+             <property name="text">
+              <string>Stop</string>
+             </property>
+            </widget>
+           </item>
+           <item>
             <widget class="QPushButton" name="updatePushButton">
              <property name="text">
               <string>Update</string>
@@ -306,13 +358,6 @@
             </widget>
            </item>
           </layout>
-         </item>
-         <item>
-          <widget class="QProgressBar" name="progressBar">
-           <property name="value">
-            <number>0</number>
-           </property>
-          </widget>
          </item>
         </layout>
        </widget>

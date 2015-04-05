@@ -10,6 +10,22 @@ FractalWidget::FractalWidget(QWidget *parent) :
     m_fractalImage(QImage())
 {}
 
+void FractalWidget::setFractal(Fractal *fractal)
+{
+    m_fractal = fractal;
+}
+
+void FractalWidget::setCalculateThread(QThread *calculateThread)
+{
+    m_calculateThread = calculateThread;
+}
+
+void FractalWidget::paintFractalImage()
+{
+    m_fractalImage = m_fractal->image();
+    update();
+}
+
 void FractalWidget::paintEvent(QPaintEvent *event)
 {
     QPainter painter(this);
@@ -21,12 +37,19 @@ void FractalWidget::mousePressEvent(QMouseEvent *event)
 {
     if (m_calculateThread->isRunning())
         return;
+    bool isRectChanged = false;
+    QRectF newRect;
     if (event->button() == Qt::LeftButton) {
-        m_fractal->setRect(increaseZoomRectF(event->localPos()));
-        m_calculateThread->start();
+        newRect = increaseZoomRectF(event->localPos());
+        isRectChanged = true;
     }
     if (event->button() == Qt::RightButton) {
-        m_fractal->setRect(decreaseZoomRectF(event->localPos()));
+        newRect = decreaseZoomRectF(event->localPos());
+        isRectChanged = true;
+    }
+    if (isRectChanged) {
+        m_fractal->setRect(newRect);
+        emit rectChanged(newRect);
         m_calculateThread->start();
     }
     QWidget::mousePressEvent(event);
@@ -54,20 +77,3 @@ QPointF FractalWidget::getCenterPointF(const QPointF &center)
     double dy = m_fractal->rectf().height()/static_cast<double>(this->rect().height());
     return QPointF(m_fractal->rectf().left() + center.x()*dx, m_fractal->rectf().top() + center.y()*dy);
 }
-
-void FractalWidget::setCalculateThread(QThread *calculateThread)
-{
-    m_calculateThread = calculateThread;
-}
-
-void FractalWidget::setFractal(Fractal *fractal)
-{
-    m_fractal = fractal;
-}
-
-void FractalWidget::paintFractalImage()
-{
-    m_fractalImage = m_fractal->image();
-    update();
-}
-

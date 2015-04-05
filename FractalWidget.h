@@ -15,6 +15,10 @@ public:
     void setFractal(Fractal *fractal);
     void setCalculateThread(QThread *calculateThread);
 
+signals:
+
+    void rectChanged(QRectF newRectf);
+
 public slots:
 
     void paintFractalImage();

@@ -7,7 +7,6 @@
 #include <QRectF>
 #include <QImage>
 
-
 class Fractal: public QObject
 {
     Q_OBJECT
@@ -16,13 +15,11 @@ public:
 
     explicit Fractal(QObject *parent = 0);
 
+    int maxIterationCount();
+    void setMaxIterationCount(int maxIterationCount);
+
     int matrixDimension() const;
     void setMatrixDimension(int matrixDimension);
-
-    QRectF rectf() const;
-    void setRect(const QRectF &rectf);
-
-    QImage image() const;
 
     double radius() const;
     void setRadius(double radius);
@@ -30,12 +27,16 @@ public:
     double power() const;
     void setPower(double power);
 
-    static int maxIterationCount();
-    static void setMaxiterationCount(int maxIterationCount);
+    QRectF rectf() const;
+    void setRect(const QRectF &rectf);
+
+
+    QImage image() const;
 
 public slots:
 
     void calculate();
+    void stopCalculcation();
 
 signals:
 
@@ -45,25 +46,23 @@ signals:
 private:
 
     void prepareMatrix();
+    QVector<int> calcIterationMatrixLine(const double lineIndex);
     int calcIterationCount(const double x0, const double y0) const;
     void printFractal();
     QColor getPixel(const int x, const int y) const;
-    QVector<int> calcIterationMatrixLine(double lineIndex);
-    void concurrentlyCalcIterationMatrixLine(int &value, int lineIndex, int *base);
 
-    static int m_maxIterationCount;
-
+    int m_maxIterationCount;
     int m_matrixDimension;
-    QVector<QVector<int> > m_iterationMatrix;
     double m_radius;
     double m_power;
     QRectF m_rectf;
-    QImage m_image;
+
     double m_stepX;
     double m_stepY;
+    QVector<QVector<int> > m_iterationMatrix;
+    QImage m_image;
+    bool m_isCalculationRunning;
 
 };
-
-QColor ColorRepresentation(int iterationCount);
 
 #endif // FRACTAL_H
