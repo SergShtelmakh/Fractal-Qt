@@ -37,21 +37,18 @@ void FractalWidget::mousePressEvent(QMouseEvent *event)
 {
     if (m_calculateThread->isRunning())
         return;
-    bool isRectChanged = false;
+
     QRectF newRect;
-    if (event->button() == Qt::LeftButton) {
+    if (event->button() == Qt::LeftButton)
         newRect = increaseZoomRectF(event->localPos());
-        isRectChanged = true;
-    }
-    if (event->button() == Qt::RightButton) {
+    if (event->button() == Qt::RightButton)
         newRect = decreaseZoomRectF(event->localPos());
-        isRectChanged = true;
-    }
-    if (isRectChanged) {
+    if (m_fractal->rectf() != newRect) {
         m_fractal->setRect(newRect);
         emit rectChanged(newRect);
         m_calculateThread->start();
     }
+
     QWidget::mousePressEvent(event);
 }
 
