@@ -45,9 +45,9 @@ signals:
 
 private:
 
-    void prepareMatrix();
-    QVector<int> calcIterationMatrixLine(const double lineIndex);
-    int calcIterationCount(const double x0, const double y0) const;
+    void prepareToCalculate();
+    QVector<int> calcIterationMatrixLine(const int lineIndex);
+    int calcIterationCountAtPoint(const double x0, const double y0) const;
     void printFractal();
     QColor getPixel(const int x, const int y) const;
 

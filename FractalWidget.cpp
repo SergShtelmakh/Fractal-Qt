@@ -43,11 +43,9 @@ void FractalWidget::mousePressEvent(QMouseEvent *event)
         newRect = increaseZoomRectF(event->localPos());
     if (event->button() == Qt::RightButton)
         newRect = decreaseZoomRectF(event->localPos());
-    if (m_fractal->rectf() != newRect) {
-        m_fractal->setRect(newRect);
-        emit rectChanged(newRect);
-        m_calculateThread->start();
-    }
+    m_fractal->setRect(newRect);
+    emit rectChanged(newRect);
+    m_calculateThread->start();
 
     QWidget::mousePressEvent(event);
 }
@@ -70,7 +68,7 @@ QRectF FractalWidget::decreaseZoomRectF(const QPointF &localCenter)
 
 QPointF FractalWidget::getCenterPointF(const QPointF &center)
 {
-    double dx = m_fractal->rectf().width()/static_cast<double>(this->rect().width());
-    double dy = m_fractal->rectf().height()/static_cast<double>(this->rect().height());
+    double dx = m_fractal->rectf().width()/this->rect().width();
+    double dy = m_fractal->rectf().height()/this->rect().height();
     return QPointF(m_fractal->rectf().left() + center.x()*dx, m_fractal->rectf().top() + center.y()*dy);
 }
