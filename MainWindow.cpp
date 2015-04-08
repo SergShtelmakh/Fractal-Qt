@@ -3,6 +3,7 @@
 #include <QRectF>
 #include <QThread>
 #include <QMessageBox>
+#include "Fractal.h"
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -32,8 +33,8 @@ MainWindow::~MainWindow()
         m_calculateThread->quit();
     }
     m_calculateThread->deleteLater();
-    delete ui;
     delete m_fractal;
+    delete ui;
 }
 
 void MainWindow::on_updatePushButton_clicked()
@@ -41,7 +42,7 @@ void MainWindow::on_updatePushButton_clicked()
     if (m_calculateThread->isRunning()) {
         m_calculateThread->quit();
     }
-
+    // Get settings from main window
     bool ok;
     double top = -ui->topLineEdit->text().toDouble(&ok);
     if (isErrorExist(ok,"Top","real"))
@@ -108,9 +109,11 @@ void MainWindow::updateFractalProperty(const QRectF &rectf, const int matrixDime
 
 bool MainWindow::isErrorExist(const bool ok, const QString valueName, const QString typeName, const int value, const int min, const int max)
 {
+    // Check correct input
     if (isErrorExist(ok,valueName,typeName)) {
         return true;
     } else {
+        // Check interval
         if ((value > max)||(value < min)) {
             QMessageBox::warning(this, "Incorrect input", QString(valueName + " must be [%1..%2]!").arg(min).arg(max));
             return true;
@@ -121,6 +124,7 @@ bool MainWindow::isErrorExist(const bool ok, const QString valueName, const QStr
 
 bool MainWindow::isErrorExist(const bool ok, const QString valueName, const QString typeName)
 {
+    // Check type
     if (!ok) {
         QMessageBox::warning(this, "Incorrect input", valueName + " must be " + typeName + " type!");
         return true;

@@ -2,7 +2,7 @@
 #define FRACTALWIDGET_H
 
 #include <QWidget>
-#include "Fractal.h"
+class Fractal;
 
 class FractalWidget : public QWidget
 {

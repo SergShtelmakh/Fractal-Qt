@@ -15,17 +15,17 @@ public:
 
     explicit Fractal(QObject *parent = 0);
 
-    int maxIterationCount();
-    void setMaxIterationCount(int maxIterationCount);
+    int maxIterationCount() const;
+    void setMaxIterationCount(const int maxIterationCount);
 
     int matrixDimension() const;
-    void setMatrixDimension(int matrixDimension);
+    void setMatrixDimension(const int matrixDimension);
 
     double radius() const;
-    void setRadius(double radius);
+    void setRadius(const double radius);
 
     double power() const;
-    void setPower(double power);
+    void setPower(const double power);
 
     QRectF rectf() const;
     void setRect(const QRectF &rectf);

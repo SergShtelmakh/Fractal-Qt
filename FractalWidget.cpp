@@ -4,6 +4,7 @@
 #include <QPaintDevice>
 #include <QMouseEvent>
 #include <QThread>
+#include "Fractal.h"
 
 FractalWidget::FractalWidget(QWidget *parent) :
     QWidget(parent),

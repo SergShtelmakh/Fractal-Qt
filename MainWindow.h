@@ -2,7 +2,8 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-#include "Fractal.h"
+
+class Fractal;
 
 namespace Ui {
 class MainWindow;
