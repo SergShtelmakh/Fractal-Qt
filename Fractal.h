@@ -1,3 +1,12 @@
+/*!
+ * \file Fractal.h
+ * \date 2015/04/24
+ *
+ * \author SergShtelmakh
+ * Contact: sh.serg1993@gmail.com
+ *
+ */
+
 #ifndef FRACTAL_H
 #define FRACTAL_H
 

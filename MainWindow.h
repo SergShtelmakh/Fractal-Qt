@@ -1,3 +1,12 @@
+/*!
+ * \file MainWindow.h
+ * \date 2015/04/24
+ *
+ * \author SergShtelmakh
+ * Contact: sh.serg1993@gmail.com
+ *
+ */
+
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
