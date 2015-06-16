@@ -6,6 +6,8 @@
 #include <QThread>
 #include "Fractal.h"
 
+const double FractalWidget::ZOOM_STEP = 2.0;
+
 FractalWidget::FractalWidget(QWidget *parent) :
     QWidget(parent),
     m_fractalImage(QImage())
@@ -54,16 +56,16 @@ void FractalWidget::mousePressEvent(QMouseEvent *event)
 QRectF FractalWidget::increaseZoomRectF(const QPointF &localCenter)
 {
     QPointF center = getCenterPointF(localCenter);
-    double height = m_fractal->rectf().height()/2.0;
-    double width = m_fractal->rectf().width()/2.0;
+    double height = m_fractal->rectf().height()/ZOOM_STEP;
+    double width = m_fractal->rectf().width()/ZOOM_STEP;
     return QRectF(center.x() - width /2.0, center.y() - height /2.0, width, height);
 }
 
 QRectF FractalWidget::decreaseZoomRectF(const QPointF &localCenter)
 {
     QPointF center = getCenterPointF(localCenter);
-    double height = m_fractal->rectf().height()*2.0;
-    double width = m_fractal->rectf().width()*2.0;
+    double height = m_fractal->rectf().height()*ZOOM_STEP;
+    double width = m_fractal->rectf().width()*ZOOM_STEP;
     return QRectF(center.x() - width /2.0, center.y() - height /2.0, width, height);
 }
 

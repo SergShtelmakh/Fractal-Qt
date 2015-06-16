@@ -106,7 +106,7 @@ QVector<int> Fractal::calcIterationMatrixLine(const int lineIndex)
     matrixLine.fill(0, m_matrixDimension);
     int *base = matrixLine.data();
     // Concurrent calculation one line of pixel
-    QFuture<void> result =  QtConcurrent::map(matrixLine,[&lineIndex,&base,this](int &value) {
+    QFuture<void> result =  QtConcurrent::map(matrixLine, [&lineIndex, &base, this](int &value) {
         value = calcIterationCountAtPoint(m_rectf.left() + lineIndex*m_stepX, m_rectf.top() + (&value - base)*m_stepY);
     });
     result.waitForFinished();
