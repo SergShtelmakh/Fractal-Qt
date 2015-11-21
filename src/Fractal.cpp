@@ -75,7 +75,7 @@ int Fractal::calcIterationCountAtPoint(const double x0, const double y0) const
     long double vectorLengthToThePower;
     int iteration;
     for (iteration = 0; (iteration < m_maxIterationCount)&(vectorLength < m_radius); iteration++) {
-        vectorLength = sqrt(x*x + y*y);
+		vectorLength = qSqrt(x*x + y*y);
         fi = atan2(y, x);
         vectorLengthToThePower = pow(vectorLength, m_power);
         x = vectorLengthToThePower*(cos(fi*m_power)) + x0;
@@ -87,8 +87,8 @@ int Fractal::calcIterationCountAtPoint(const double x0, const double y0) const
 void Fractal::printFractal()
 {
 	auto getColor = [this](const int x, const int y) {
-		auto fraction = static_cast<float>(m_iterationMatrix[x][y])/m_maxIterationCount;
-		return sqrtf(fraction) == 1.0 ? cMainColor : fracralColor(fraction);
+		auto fraction = static_cast<double>(m_iterationMatrix[x][y])/m_maxIterationCount;
+		return qSqrt(fraction) == 1.0 ? cMainColor : fracralColor(fraction);
 	};
 
 	auto image = QImage(m_matrixDimension, m_matrixDimension, QImage::Format_RGB32);

@@ -36,8 +36,8 @@ protected:
     void mousePressEvent(QMouseEvent *event);
 
 private:
-    QRectF increaseZoomRectF(const QPointF &localCenter);
-    QRectF decreaseZoomRectF(const QPointF &localCenter);
+	void increaseZoomRectF(const QPointF &localCenter);
+	void decreaseZoomRectF(const QPointF &localCenter);
     QPointF getCenterPointF(const QPointF &center);
 
     QImage m_fractalImage;
