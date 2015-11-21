@@ -9,7 +9,7 @@
 
 namespace
 {
-	const double cZoomStep = 2.0;
+	const double cZoomFactor = 2.0;
 }
 
 FractalWidget::FractalWidget(QWidget *parent)
@@ -47,10 +47,10 @@ void FractalWidget::mousePressEvent(QMouseEvent *event)
 
 	switch (event->button()) {
 	case Qt::LeftButton:
-		increaseZoomRectF(event->localPos());
+		scaleRectF(event->localPos(), 1 / cZoomFactor);
 		break;
 	case Qt::RightButton:
-		decreaseZoomRectF(event->localPos());
+		scaleRectF(event->localPos(), cZoomFactor);
 		break;
 	default:
 		break;
@@ -59,31 +59,17 @@ void FractalWidget::mousePressEvent(QMouseEvent *event)
 	QWidget::mousePressEvent(event);
 }
 
-void FractalWidget::increaseZoomRectF(const QPointF &localCenter)
+void FractalWidget::scaleRectF(const QPointF &localCenter, const double scaleFactor)
 {
-	auto center = getCenterPointF(localCenter);
-	auto height = m_fractal->rectf().height()/cZoomStep;
-	auto width = m_fractal->rectf().width()/cZoomStep;
-	auto newRect = QRectF(center.x() - width /2.0, center.y() - height /2.0, width, height);
+	auto dx = m_fractal->rectf().width()  / this->rect().width();
+	auto dy = m_fractal->rectf().height() / this->rect().height();
+
+	auto newRectCenter = QPointF(m_fractal->rectf().left() + localCenter.x()*dx, m_fractal->rectf().top() + localCenter.y()*dy);
+	auto newRectHeight = m_fractal->rectf().height()*scaleFactor;
+	auto newRectWidth  = m_fractal->rectf().width() *scaleFactor;
+
+	auto newRect = QRectF(newRectCenter.x() - newRectWidth /2.0, newRectCenter.y() - newRectHeight/2.0, newRectWidth, newRectHeight);
 	m_fractal->setRect(newRect);
 	emit rectChanged(newRect);
 	m_calculateThread->start();
-}
-
-void FractalWidget::decreaseZoomRectF(const QPointF &localCenter)
-{
-	auto center = getCenterPointF(localCenter);
-	auto height = m_fractal->rectf().height()*cZoomStep;
-	auto width = m_fractal->rectf().width()*cZoomStep;
-	auto newRect = QRectF(center.x() - width /2.0, center.y() - height /2.0, width, height);
-	m_fractal->setRect(newRect);
-	emit rectChanged(newRect);
-	m_calculateThread->start();
-}
-
-QPointF FractalWidget::getCenterPointF(const QPointF &center)
-{
-	auto dx = m_fractal->rectf().width()/this->rect().width();
-	auto dy = m_fractal->rectf().height()/this->rect().height();
-	return QPointF(m_fractal->rectf().left() + center.x()*dx, m_fractal->rectf().top() + center.y()*dy);
 }

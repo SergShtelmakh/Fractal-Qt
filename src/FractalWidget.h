@@ -34,14 +34,11 @@ protected:
 	void mousePressEvent(QMouseEvent *event);
 
 private:
-	void increaseZoomRectF(const QPointF &localCenter);
-	void decreaseZoomRectF(const QPointF &localCenter);
-	QPointF getCenterPointF(const QPointF &center);
+	void scaleRectF(const QPointF &localCenter, const double scaleFactor);
 
 	QImage m_fractalImage;
 	Fractal *m_fractal;
 	QThread *m_calculateThread;
-
 };
 
 #endif // FRACTALWIDGET_H
