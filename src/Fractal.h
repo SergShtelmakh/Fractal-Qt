@@ -46,8 +46,6 @@ public:
 	QRectF rectf() const { return m_rectf; }
 	void setRect(const QRectF &rectf) { m_rectf = rectf; }
 
-	QImage image() const { return m_image; }
-
 public slots:
 	void calculate();
 	void stopCalculcation();
@@ -55,6 +53,7 @@ public slots:
 signals:
 	void calculateFinished();
 	void progress(int progress);
+	void print(QImage image);
 
 private:
 	void prepareToCalculate();
@@ -62,8 +61,8 @@ private:
 	int calcIterationCountAtPoint(const double x0, const double y0) const;
 	void printFractal();
 
-	int m_maxIterationCount;
-	int m_matrixDimension;
+	int    m_maxIterationCount;
+	int    m_matrixDimension;
 	double m_radius;
 	double m_power;
 	QRectF m_rectf;
@@ -71,7 +70,6 @@ private:
 	double m_stepX;
 	double m_stepY;
 	QVector<QVector<int> > m_iterationMatrix;
-	QImage m_image;
 	bool m_isCalculationRunning;
 
 };

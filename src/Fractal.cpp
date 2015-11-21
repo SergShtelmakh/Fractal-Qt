@@ -27,16 +27,16 @@ Fractal::Fractal(QObject *parent)
 
 void Fractal::calculate()
 {
-	this->prepareToCalculate();
-	// Calculate
+	prepareToCalculate();
+
 	for (int i = 0; (i < m_matrixDimension)&&(m_isCalculationRunning); i++) {
 		calcIterationMatrixLine(i);
 		emit progress(static_cast<int>((i + 1.0)*100.0/m_matrixDimension));
 	}
-	// If calculation successfully finished then print image
+
 	if (m_isCalculationRunning)
-		this->printFractal();
-	// Calcucation finished
+		printFractal();
+
 	emit calculateFinished();
 }
 
@@ -57,7 +57,7 @@ void Fractal::calcIterationMatrixLine(const int lineIndex)
 {
 	auto matrixLine = QVector<int>().fill(0, m_matrixDimension);
 	int *base = matrixLine.data();
-	// Concurrent calculation one line of pixel
+
 	auto result =  QtConcurrent::map(matrixLine, [&lineIndex, &base, this](int &value) {
 		value = calcIterationCountAtPoint(m_rectf.left() + lineIndex*m_stepX, m_rectf.top() + (&value - base)*m_stepY);
 	});
@@ -67,7 +67,6 @@ void Fractal::calcIterationMatrixLine(const int lineIndex)
 
 int Fractal::calcIterationCountAtPoint(const double x0, const double y0) const
 {
-	// Calculate iterations count for Mandelbrot's fractal at point (x0,y0)
 	long double vectorLength = 0;
 	long double x = 0;
 	long double y = 0;
@@ -97,5 +96,5 @@ void Fractal::printFractal()
 			image.setPixel(i, j, getColor(i, j).rgb());
 		}
 	}
-	m_image = image;
+	emit print(image);
 }

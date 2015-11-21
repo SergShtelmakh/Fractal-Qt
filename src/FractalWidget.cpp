@@ -24,9 +24,9 @@ void FractalWidget::setCalculateThread(QThread *calculateThread)
 	m_calculateThread = calculateThread;
 }
 
-void FractalWidget::paintFractalImage()
+void FractalWidget::paintFractalImage(QImage image)
 {
-	m_fractalImage = m_fractal->image();
+	m_fractalImage = image;
 	update();
 }
 

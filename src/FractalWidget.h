@@ -29,7 +29,7 @@ signals:
 	void rectChanged(QRectF newRectf);
 
 public slots:
-	void paintFractalImage();
+	void paintFractalImage(QImage image);
 
 protected:
 	void paintEvent(QPaintEvent *event);
