@@ -2,10 +2,9 @@
 
 #include <QtMath>
 
-MandelbrotFractal::MandelbrotFractal()
-{
-
-}
+MandelbrotFractal::MandelbrotFractal(QObject *parent)
+	: Fractal(parent)
+{}
 
 int MandelbrotFractal::calcAtPoint(const double x0, const double y0) const
 {

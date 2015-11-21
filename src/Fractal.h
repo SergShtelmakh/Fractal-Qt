@@ -21,6 +21,7 @@ class Fractal: public QObject
 
 public:
 	explicit Fractal(QObject *parent = 0);
+	virtual ~Fractal(){}
 
 	int maxIterationCount() const {	return m_maxIterationCount;	}
 	void setMaxIterationCount(const int maxIterationCount) { m_maxIterationCount = maxIterationCount; }

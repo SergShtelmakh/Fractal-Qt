@@ -6,7 +6,7 @@
 class MandelbrotFractal : public Fractal
 {
 public:
-	MandelbrotFractal();
+	MandelbrotFractal(QObject *parent = 0);
 
 private:
 	int calcAtPoint(const double x0, const double y0) const override;
