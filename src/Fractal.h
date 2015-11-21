@@ -39,11 +39,12 @@ public:
 	void setRect(const QRectF &rectf) { m_rectf = rectf; }
 
 public slots:
-	void calculate();
+	void startCalculation();
 	void stopCalculcation();
 
 signals:
 	void calculateFinished();
+	void calculateCanceled();
 	void progress(int progress);
 	void print(QImage image);
 
@@ -51,8 +52,7 @@ protected:
 	virtual int calcAtPoint(const double x0, const double y0) const = 0 ;
 
 private:
-	void prepareToCalculate();
-	void calcIterationMatrixLine(const int lineIndex);
+	void calculateMatrixLine(const int lineIndex);
 	void printFractal();
 
 	int    m_maxIterationCount;
@@ -63,9 +63,8 @@ private:
 
 	double m_stepX;
 	double m_stepY;
-	QVector<QVector<int> > m_iterationMatrix;
+	QVector<QVector<int>> m_iterationMatrix;
 	bool m_isCalculationRunning;
-
 };
 
 #endif // FRACTAL_H

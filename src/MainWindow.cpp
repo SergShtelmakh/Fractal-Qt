@@ -39,8 +39,9 @@ MainWindow::MainWindow(QWidget *parent)
 
 	m_fractal->moveToThread(m_calculateThread);
 
-	connect(m_calculateThread, &QThread::started, m_fractal, &Fractal::calculate);
+	connect(m_calculateThread, &QThread::started, m_fractal, &Fractal::startCalculation);
 	connect(m_fractal, &Fractal::calculateFinished, m_calculateThread, &QThread::quit);
+	connect(m_fractal, &Fractal::calculateCanceled, m_calculateThread, &QThread::quit);
 	connect(m_fractal, &Fractal::print, ui->fractalWidget, &FractalWidget::paintFractalImage);
 	connect(m_fractal, &Fractal::progress, ui->progressBar, &QProgressBar::setValue);
 	connect(ui->fractalWidget, &FractalWidget::rectChanged, this, &MainWindow::onRectChanged);
