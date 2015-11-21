@@ -18,8 +18,6 @@ class FractalWidget : public QWidget
 	Q_OBJECT
 
 public:
-	static const double ZOOM_STEP ;
-
 	explicit FractalWidget(QWidget *parent = 0);
 
 	void setFractal(Fractal *fractal);

@@ -7,6 +7,28 @@
 #include <QThread>
 #include <QMessageBox>
 
+namespace
+{
+	const int cMaxIteratinCount   = 10000;
+	const int cMinIteratinCount   = 10;
+	const int cMaxMatrixDimension = 10000;
+	const int cMinMatrixDimension = 10;
+	const double cMaxRadius       = 100.0;
+	const double cMinRadius       = 0.0;
+	const double cMaxPower        = 100.0;
+	const double cMinPower        = 0.0;
+
+	inline QString invalidTypeMessage(const QString &name, const QString &type)
+	{
+		return QString("%1 must be %2 type!").arg(name).arg(type);
+	}
+
+	inline QString notInBoundMessage(const QString &name, const int min, const int max)
+	{
+		return QString("%1 must be [%2..%3]!").arg(name).arg(min).arg(max);
+	}
+}
+
 MainWindow::MainWindow(QWidget *parent)
 	: QMainWindow(parent)
 	, ui(new Ui::MainWindow)
@@ -71,16 +93,16 @@ void MainWindow::on_updatePushButton_clicked()
 	}
 
 	auto matrixDimension = ui->matrixDimensionLineEdit->text().toInt(&ok);
-	if (isErrorExist(ok, "Matrix dimension", "integer", matrixDimension, Fractal::MIN_MATRIX_DIMENSION, Fractal::MAX_MATRIX_DIMENSION))
+	if (isErrorExist(ok, "Matrix dimension", "integer", matrixDimension, cMinMatrixDimension, cMaxMatrixDimension))
 		return;
 	auto radius = ui->radiusLineEdit->text().toDouble(&ok);
-	if (isErrorExist(ok, "Radius", "real", radius, Fractal::MIN_RADIUS, Fractal::MAX_RADIUS))
+	if (isErrorExist(ok, "Radius", "real", radius, cMinRadius, cMaxRadius))
 		return;
 	auto power = ui->powerLineEdit->text().toDouble(&ok);
-	if (isErrorExist(ok, "Power", "real", power, Fractal::MIN_POWER, Fractal::MAX_POWER))
+	if (isErrorExist(ok, "Power", "real", power, cMinPower, cMaxPower))
 		return;
 	auto maxIteration = ui->maxIterationLineEdit->text().toInt(&ok);
-	if (isErrorExist(ok, "Max iteration", "integer", maxIteration, Fractal::MIN_ITERATION_COUNT, Fractal::MAX_ITERATION_COUNT))
+	if (isErrorExist(ok, "Max iteration", "integer", maxIteration, cMinIteratinCount, cMaxIteratinCount))
 		return;
 	auto newRect = QRectF(left, top, width, height);
 	updateFractalProperty(newRect, matrixDimension, radius, power, maxIteration);
@@ -117,7 +139,7 @@ bool MainWindow::isErrorExist(const bool ok, const QString valueName, const QStr
 	} else {
 		// Check interval
 		if ((value > max)||(value < min)) {
-			QMessageBox::warning(this, "Incorrect input", QString(valueName + " must be [%1..%2]!").arg(min).arg(max));
+			QMessageBox::warning(this, "Incorrect input", notInBoundMessage(valueName, min, max));
 			return true;
 		}
 	}
@@ -128,7 +150,7 @@ bool MainWindow::isErrorExist(const bool ok, const QString valueName, const QStr
 {
 	// Check type
 	if (!ok) {
-		QMessageBox::warning(this, "Incorrect input", valueName + " must be " + typeName + " type!");
+		QMessageBox::warning(this, "Incorrect input", invalidTypeMessage(valueName, typeName));
 		return true;
 	}
 	return false;

@@ -20,15 +20,6 @@ class Fractal: public QObject
 	Q_OBJECT
 
 public:
-	static const unsigned int MAX_ITERATION_COUNT = 10000;
-	static const unsigned int MAX_MATRIX_DIMENSION = 10000;
-	static const unsigned int MAX_RADIUS = 100;
-	static const unsigned int MAX_POWER = 100;
-	static const unsigned int MIN_ITERATION_COUNT = 0;
-	static const unsigned int MIN_MATRIX_DIMENSION = 0;
-	static const unsigned int MIN_RADIUS = 0;
-	static const unsigned int MIN_POWER = 1;
-
 	explicit Fractal(QObject *parent = 0);
 
 	int maxIterationCount() const {	return m_maxIterationCount;	}

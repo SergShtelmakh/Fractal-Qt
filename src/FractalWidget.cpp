@@ -7,7 +7,10 @@
 #include <QMouseEvent>
 #include <QThread>
 
-const double FractalWidget::ZOOM_STEP = 2.0;
+namespace
+{
+	const double cZoomStep = 2.0;
+}
 
 FractalWidget::FractalWidget(QWidget *parent)
 	: QWidget(parent)
@@ -59,8 +62,8 @@ void FractalWidget::mousePressEvent(QMouseEvent *event)
 void FractalWidget::increaseZoomRectF(const QPointF &localCenter)
 {
 	auto center = getCenterPointF(localCenter);
-	auto height = m_fractal->rectf().height()/ZOOM_STEP;
-	auto width = m_fractal->rectf().width()/ZOOM_STEP;
+	auto height = m_fractal->rectf().height()/cZoomStep;
+	auto width = m_fractal->rectf().width()/cZoomStep;
 	auto newRect = QRectF(center.x() - width /2.0, center.y() - height /2.0, width, height);
 	m_fractal->setRect(newRect);
 	emit rectChanged(newRect);
@@ -70,8 +73,8 @@ void FractalWidget::increaseZoomRectF(const QPointF &localCenter)
 void FractalWidget::decreaseZoomRectF(const QPointF &localCenter)
 {
 	auto center = getCenterPointF(localCenter);
-	auto height = m_fractal->rectf().height()*ZOOM_STEP;
-	auto width = m_fractal->rectf().width()*ZOOM_STEP;
+	auto height = m_fractal->rectf().height()*cZoomStep;
+	auto width = m_fractal->rectf().width()*cZoomStep;
 	auto newRect = QRectF(center.x() - width /2.0, center.y() - height /2.0, width, height);
 	m_fractal->setRect(newRect);
 	emit rectChanged(newRect);

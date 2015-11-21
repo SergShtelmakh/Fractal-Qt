@@ -8,21 +8,32 @@
 
 namespace
 {
+	const int cDefaultIterationCount  = 1000;
+	const int cDefaultMatrixDimension = 700;
+	const double cDefaultRadius       = 10.0;
+	const double cDefaultPower        = 2.0;
+	const QRectF cDefaultRectF        = QRectF(-2.0, -2.0, 4.0, 4.0);
+
 	const QColor cMainColor = QColor(Qt::black);
 
 	inline QColor fracralColor(const double fraction)
 	{
-		return QColor(255*fraction, 255-255*fraction, 0, 255);
+		return QColor(255 * fraction, 255 - 255*fraction, 0, 255);
+	}
+
+	inline int getProgress(const int current, const int max)
+	{
+		return static_cast<int>(current * 100.0 / max);
 	}
 }
 
 Fractal::Fractal(QObject *parent)
 	: QObject(parent)
-	, m_maxIterationCount(1000)
-	, m_matrixDimension(700)
-	, m_radius(10)
-	, m_power(2)
-	, m_rectf(QRectF(-2.0, -2.0, 4.0, 4.0))
+	, m_maxIterationCount(cDefaultIterationCount)
+	, m_matrixDimension(cDefaultMatrixDimension)
+	, m_radius(cDefaultRadius)
+	, m_power(cDefaultPower)
+	, m_rectf(cDefaultRectF)
 {}
 
 void Fractal::calculate()
@@ -31,7 +42,7 @@ void Fractal::calculate()
 
 	for (int i = 0; (i < m_matrixDimension)&&(m_isCalculationRunning); i++) {
 		calcIterationMatrixLine(i);
-		emit progress(static_cast<int>((i + 1.0)*100.0/m_matrixDimension));
+		emit progress(getProgress(i + 1, m_matrixDimension));
 	}
 
 	if (m_isCalculationRunning)
