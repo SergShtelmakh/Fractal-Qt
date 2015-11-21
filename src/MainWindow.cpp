@@ -2,6 +2,7 @@
 #include "ui_MainWindow.h"
 
 #include "MandelbrotFractal.h"
+#include "JuliaFractal.h"
 
 #include <QRectF>
 #include <QThread>
@@ -32,7 +33,7 @@ namespace
 MainWindow::MainWindow(QWidget *parent)
 	: QMainWindow(parent)
 	, ui(new Ui::MainWindow)
-	, m_fractal(new MandelbrotFractal)
+	, m_fractal(new JuliaFractal)
 	, m_calculateThread(new QThread)
 {
 	ui->setupUi(this);

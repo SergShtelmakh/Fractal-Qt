@@ -15,13 +15,14 @@ SOURCES += main.cpp\
         MainWindow.cpp \
         FractalWidget.cpp \
         Fractal.cpp \
-    MandelbrotFractal.cpp
+        MandelbrotFractal.cpp \
+        JuliaFractal.cpp
 
 HEADERS  += MainWindow.h \
         FractalWidget.h \
         Fractal.h \
-    MandelbrotFractal.h
-
+        MandelbrotFractal.h \
+        JuliaFractal.h
 
 FORMS    += MainWindow.ui
 
