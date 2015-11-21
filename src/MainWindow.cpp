@@ -46,43 +46,43 @@ void MainWindow::on_updatePushButton_clicked()
     }
     // Get settings from main window
     bool ok;
-    double top = -ui->topLineEdit->text().toDouble(&ok);
+	auto top = -ui->topLineEdit->text().toDouble(&ok);
     if (isErrorExist(ok, "Top", "real"))
         return;
-    double left = ui->leftLineEdit->text().toDouble(&ok);
+	auto left = ui->leftLineEdit->text().toDouble(&ok);
     if (isErrorExist(ok, "Left", "real"))
         return;
-    double right = ui->rightLineEdit->text().toDouble(&ok);
+	auto right = ui->rightLineEdit->text().toDouble(&ok);
     if (isErrorExist(ok, "Right", "real"))
         return;
-    double bottom = -ui->bottomLineEdit->text().toDouble(&ok);
+	auto bottom = -ui->bottomLineEdit->text().toDouble(&ok);
     if (isErrorExist(ok, "Bottom", "real"))
         return;
 
-    double height = bottom - top;
+	auto height = bottom - top;
     if (height <= 0) {
         QMessageBox::warning(this, "Incorrect input", "Top must be greater than bottom!");
         return;
     }
-    double width = right - left;
+	auto width = right - left;
     if (width <= 0) {
         QMessageBox::warning(this, "Incorrect input", "Right must be greater than left!");
         return;
     }
 
-    int matrixDimension = ui->matrixDimensionLineEdit->text().toInt(&ok);
+	auto matrixDimension = ui->matrixDimensionLineEdit->text().toInt(&ok);
     if (isErrorExist(ok, "Matrix dimension", "integer", matrixDimension, Fractal::MIN_MATRIX_DIMENSION, Fractal::MAX_MATRIX_DIMENSION))
         return;
-    double radius = ui->radiusLineEdit->text().toDouble(&ok);
+	auto radius = ui->radiusLineEdit->text().toDouble(&ok);
     if (isErrorExist(ok, "Radius", "real", radius, Fractal::MIN_RADIUS, Fractal::MAX_RADIUS))
         return;
-    double power = ui->powerLineEdit->text().toDouble(&ok);
+	auto power = ui->powerLineEdit->text().toDouble(&ok);
     if (isErrorExist(ok, "Power", "real", power, Fractal::MIN_POWER, Fractal::MAX_POWER))
         return;
-    double maxIteration = ui->maxIterationLineEdit->text().toInt(&ok);
+	auto maxIteration = ui->maxIterationLineEdit->text().toInt(&ok);
     if (isErrorExist(ok, "Max iteration", "integer", maxIteration, Fractal::MIN_ITERATION_COUNT, Fractal::MAX_ITERATION_COUNT))
         return;
-    QRectF newRect = QRectF(left, top, width, height);
+	auto newRect = QRectF(left, top, width, height);
     updateFractalProperty(newRect, matrixDimension, radius, power, maxIteration);
     m_calculateThread->start();
 }

@@ -55,11 +55,10 @@ void Fractal::prepareToCalculate()
 
 void Fractal::calcIterationMatrixLine(const int lineIndex)
 {
-    QVector<int> matrixLine;
-    matrixLine.fill(0, m_matrixDimension);
+	auto matrixLine = QVector<int>().fill(0, m_matrixDimension);
     int *base = matrixLine.data();
     // Concurrent calculation one line of pixel
-    QFuture<void> result =  QtConcurrent::map(matrixLine, [&lineIndex, &base, this](int &value) {
+	auto result =  QtConcurrent::map(matrixLine, [&lineIndex, &base, this](int &value) {
         value = calcIterationCountAtPoint(m_rectf.left() + lineIndex*m_stepX, m_rectf.top() + (&value - base)*m_stepY);
     });
     result.waitForFinished();
@@ -92,7 +91,7 @@ void Fractal::printFractal()
 		return sqrtf(fraction) == 1.0 ? cMainColor : fracralColor(fraction);
 	};
 
-    QImage image = QImage(m_matrixDimension, m_matrixDimension, QImage::Format_RGB32);
+	auto image = QImage(m_matrixDimension, m_matrixDimension, QImage::Format_RGB32);
     for (int i = 0; i < m_matrixDimension; i++) {
         for (int j = 0; j < m_matrixDimension; j++) {
 			image.setPixel(i, j, getColor(i, j).rgb());
