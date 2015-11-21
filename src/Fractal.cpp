@@ -4,8 +4,6 @@
 #include <QFuture>
 #include <QColor>
 
-#include <math.h>
-
 namespace
 {
 	const int cDefaultIterationCount  = 1000;
@@ -70,28 +68,10 @@ void Fractal::calcIterationMatrixLine(const int lineIndex)
 	int *base = matrixLine.data();
 
 	auto result =  QtConcurrent::map(matrixLine, [&lineIndex, &base, this](int &value) {
-		value = calcIterationCountAtPoint(m_rectf.left() + lineIndex*m_stepX, m_rectf.top() + (&value - base)*m_stepY);
+		value = calcAtPoint(m_rectf.left() + lineIndex*m_stepX, m_rectf.top() + (&value - base)*m_stepY);
 	});
 	result.waitForFinished();
 	m_iterationMatrix.insert(lineIndex, matrixLine);
-}
-
-int Fractal::calcIterationCountAtPoint(const double x0, const double y0) const
-{
-	long double vectorLength = 0;
-	long double x = 0;
-	long double y = 0;
-	long double fi;
-	long double vectorLengthToThePower;
-	int iteration;
-	for (iteration = 0; (iteration < m_maxIterationCount)&(vectorLength < m_radius); iteration++) {
-		vectorLength = qSqrt(x*x + y*y);
-		fi = atan2(y, x);
-		vectorLengthToThePower = pow(vectorLength, m_power);
-		x = vectorLengthToThePower*(cos(fi*m_power)) + x0;
-		y = vectorLengthToThePower*(sin(fi*m_power)) + y0;
-	}
-	return iteration;
 }
 
 void Fractal::printFractal()

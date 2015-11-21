@@ -46,10 +46,12 @@ signals:
 	void progress(int progress);
 	void print(QImage image);
 
+protected:
+	virtual int calcAtPoint(const double x0, const double y0) const = 0 ;
+
 private:
 	void prepareToCalculate();
 	void calcIterationMatrixLine(const int lineIndex);
-	int calcIterationCountAtPoint(const double x0, const double y0) const;
 	void printFractal();
 
 	int    m_maxIterationCount;
