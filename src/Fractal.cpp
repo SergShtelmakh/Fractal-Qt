@@ -2,8 +2,19 @@
 
 #include <QtConcurrent>
 #include <QFuture>
+#include <QColor>
 
 #include <math.h>
+
+namespace
+{
+	const QColor cMainColor = QColor(Qt::black);
+
+	inline QColor fracralColor(const double fraction)
+	{
+		return QColor(255*fraction, 255-255*fraction, 0, 255);
+	}
+}
 
 Fractal::Fractal(QObject *parent)
 	: QObject(parent)
@@ -19,7 +30,7 @@ void Fractal::calculate()
     this->prepareToCalculate();
     // Calculate
     for (int i = 0; (i < m_matrixDimension)&&(m_isCalculationRunning); i++) {
-        m_iterationMatrix.insert(i,calcIterationMatrixLine(i));
+		calcIterationMatrixLine(i);
         emit progress(static_cast<int>((i + 1.0)*100.0/m_matrixDimension));
     }
     // If calculation successfully finished then print image
@@ -36,18 +47,13 @@ void Fractal::stopCalculcation()
 
 void Fractal::prepareToCalculate()
 {
-    // Set default values
     m_iterationMatrix.clear();
-    QVector<int> emptyVector = QVector<int>(m_matrixDimension, m_maxIterationCount);
-    for (double i = 0; i < m_matrixDimension; i++)
-        m_iterationMatrix.append(emptyVector);
-
     m_stepX = (m_rectf.right() - m_rectf.left())/m_matrixDimension;
     m_stepY = (m_rectf.bottom() - m_rectf.top())/m_matrixDimension;
     m_isCalculationRunning = true;
 }
 
-QVector<int> Fractal::calcIterationMatrixLine(const int lineIndex)
+void Fractal::calcIterationMatrixLine(const int lineIndex)
 {
     QVector<int> matrixLine;
     matrixLine.fill(0, m_matrixDimension);
@@ -57,7 +63,7 @@ QVector<int> Fractal::calcIterationMatrixLine(const int lineIndex)
         value = calcIterationCountAtPoint(m_rectf.left() + lineIndex*m_stepX, m_rectf.top() + (&value - base)*m_stepY);
     });
     result.waitForFinished();
-    return matrixLine;
+	m_iterationMatrix.insert(lineIndex, matrixLine);
 }
 
 int Fractal::calcIterationCountAtPoint(const double x0, const double y0) const
@@ -81,24 +87,16 @@ int Fractal::calcIterationCountAtPoint(const double x0, const double y0) const
 
 void Fractal::printFractal()
 {
-    // Create image from pixels
+	auto getColor = [this](const int x, const int y) {
+		auto fraction = static_cast<float>(m_iterationMatrix[x][y])/m_maxIterationCount;
+		return sqrtf(fraction) == 1.0 ? cMainColor : fracralColor(fraction);
+	};
+
     QImage image = QImage(m_matrixDimension, m_matrixDimension, QImage::Format_RGB32);
     for (int i = 0; i < m_matrixDimension; i++) {
         for (int j = 0; j < m_matrixDimension; j++) {
-            image.setPixel(i, j, getPixel(i, j).rgb());
+			image.setPixel(i, j, getColor(i, j).rgb());
         }
     }
     m_image = image;
-}
-
-QColor Fractal::getPixel(const int x, const int y) const
-{
-    // Get item's color pixel [x,y] from iteration matrix
-    double fraction = static_cast<double>(m_iterationMatrix[x][y])/m_maxIterationCount;
-    fraction = pow(fraction, 0.5);
-    if (fraction == 1.0) {
-        return QColor(Qt::black);
-    } else {
-        return QColor(255*fraction, 255-255*fraction, 0, 255);
-    }
 }

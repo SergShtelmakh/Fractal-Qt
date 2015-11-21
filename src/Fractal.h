@@ -12,7 +12,6 @@
 
 #include <QObject>
 #include <QVector>
-#include <QColor>
 #include <QRectF>
 #include <QImage>
 
@@ -59,10 +58,9 @@ signals:
 
 private:
     void prepareToCalculate();
-    QVector<int> calcIterationMatrixLine(const int lineIndex);
+	void calcIterationMatrixLine(const int lineIndex);
     int calcIterationCountAtPoint(const double x0, const double y0) const;
-    void printFractal();
-    QColor getPixel(const int x, const int y) const;
+	void printFractal();
 
     int m_maxIterationCount;
     int m_matrixDimension;
