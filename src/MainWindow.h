@@ -12,36 +12,28 @@
 
 #include <QMainWindow>
 
-class Fractal;
-
 namespace Ui {
 class MainWindow;
 }
 
+class Fractal;
 class MainWindow : public QMainWindow
 {
-
     Q_OBJECT
 
 public:
-
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
 
 signals:
-
     void stopCalculation();
 
 private slots:
-
     void on_updatePushButton_clicked();
-
     void on_stopPushButton_clicked();
-
     void onRectChanged(QRectF newRect);
 
 private:
-
     void updateFractalProperty(const QRectF &rectf, const int matrixDimension, const double radius, const double power, const double maxIteration) const;
     bool isErrorExist(const bool ok, const QString valueName, const QString typeName, const int value, const int min, const int max);
     bool isErrorExist(const bool ok, const QString valueName, const QString typeName);

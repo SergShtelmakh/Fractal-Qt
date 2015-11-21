@@ -11,14 +11,13 @@
 #define FRACTALWIDGET_H
 
 #include <QWidget>
-class Fractal;
 
+class Fractal;
 class FractalWidget : public QWidget
 {
     Q_OBJECT
 
 public:
-
     static const double ZOOM_STEP ;
 
     explicit FractalWidget(QWidget *parent = 0);
@@ -27,20 +26,16 @@ public:
     void setCalculateThread(QThread *calculateThread);
 
 signals:
-
     void rectChanged(QRectF newRectf);
 
 public slots:
-
     void paintFractalImage();
 
 protected:
-
     void paintEvent(QPaintEvent *event);
     void mousePressEvent(QMouseEvent *event);
 
 private:
-
     QRectF increaseZoomRectF(const QPointF &localCenter);
     QRectF decreaseZoomRectF(const QPointF &localCenter);
     QPointF getCenterPointF(const QPointF &center);

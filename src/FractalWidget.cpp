@@ -1,16 +1,17 @@
 #include "FractalWidget.h"
 
+#include "Fractal.h"
+
 #include <QPainter>
 #include <QPaintDevice>
 #include <QMouseEvent>
 #include <QThread>
-#include "Fractal.h"
 
 const double FractalWidget::ZOOM_STEP = 2.0;
 
-FractalWidget::FractalWidget(QWidget *parent) :
-    QWidget(parent),
-    m_fractalImage(QImage())
+FractalWidget::FractalWidget(QWidget *parent)
+	: QWidget(parent)
+	, m_fractalImage(QImage())
 {}
 
 void FractalWidget::setFractal(Fractal *fractal)

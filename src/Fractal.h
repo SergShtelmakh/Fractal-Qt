@@ -21,7 +21,6 @@ class Fractal: public QObject
     Q_OBJECT
 
 public:
-
     static const unsigned int MAX_ITERATION_COUNT = 10000;
     static const unsigned int MAX_MATRIX_DIMENSION = 10000;
     static const unsigned int MAX_RADIUS = 100;
@@ -33,36 +32,32 @@ public:
 
     explicit Fractal(QObject *parent = 0);
 
-    int maxIterationCount() const;
-    void setMaxIterationCount(const int maxIterationCount);
+	int maxIterationCount() const {	return m_maxIterationCount;	}
+	void setMaxIterationCount(const int maxIterationCount) { m_maxIterationCount = maxIterationCount; }
 
-    int matrixDimension() const;
-    void setMatrixDimension(const int matrixDimension);
+	int matrixDimension() const { return m_matrixDimension;	}
+	void setMatrixDimension(const int matrixDimension) { m_matrixDimension = matrixDimension; }
 
-    double radius() const;
-    void setRadius(const double radius);
+	double radius() const { return m_radius; }
+	void setRadius(const double radius) { m_radius = radius; }
 
-    double power() const;
-    void setPower(const double power);
+	double power() const { return m_power; }
+	void setPower(const double power) {	m_power = power; }
 
-    QRectF rectf() const;
-    void setRect(const QRectF &rectf);
+	QRectF rectf() const { return m_rectf; }
+	void setRect(const QRectF &rectf) { m_rectf = rectf; }
 
-
-    QImage image() const;
+	QImage image() const { return m_image; }
 
 public slots:
-
     void calculate();
     void stopCalculcation();
 
 signals:
-
     void calculateFinished();
     void progress(int progress);
 
 private:
-
     void prepareToCalculate();
     QVector<int> calcIterationMatrixLine(const int lineIndex);
     int calcIterationCountAtPoint(const double x0, const double y0) const;

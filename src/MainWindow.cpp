@@ -1,15 +1,17 @@
 #include "MainWindow.h"
 #include "ui_MainWindow.h"
+
+#include "Fractal.h"
+
 #include <QRectF>
 #include <QThread>
 #include <QMessageBox>
-#include "Fractal.h"
 
-MainWindow::MainWindow(QWidget *parent) :
-    QMainWindow(parent),
-    ui(new Ui::MainWindow),
-    m_fractal(new Fractal),
-    m_calculateThread(new QThread)
+MainWindow::MainWindow(QWidget *parent)
+	: QMainWindow(parent)
+	, ui(new Ui::MainWindow)
+	, m_fractal(new Fractal)
+	, m_calculateThread(new QThread)
 {
     ui->setupUi(this);
 

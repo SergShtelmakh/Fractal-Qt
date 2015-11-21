@@ -1,71 +1,18 @@
 #include "Fractal.h"
-#include <math.h>
+
 #include <QtConcurrent>
 #include <QFuture>
 
-Fractal::Fractal(QObject *parent) :
-    QObject(parent),
-    m_maxIterationCount(1000),
-    m_matrixDimension(700),
-    m_radius(10),
-    m_power(2),
-    m_rectf(QRectF(-2.0, -2.0, 4.0, 4.0))
+#include <math.h>
+
+Fractal::Fractal(QObject *parent)
+	: QObject(parent)
+	, m_maxIterationCount(1000)
+	, m_matrixDimension(700)
+	, m_radius(10)
+	, m_power(2)
+	, m_rectf(QRectF(-2.0, -2.0, 4.0, 4.0))
 {}
-
-int Fractal::maxIterationCount() const
-{
-    return m_maxIterationCount;
-}
-
-void Fractal::setMaxIterationCount(const int maxIterationCount)
-{
-    m_maxIterationCount = maxIterationCount;
-}
-
-int Fractal::matrixDimension() const
-{
-    return m_matrixDimension;
-}
-
-void Fractal::setMatrixDimension(const int matrixDimension)
-{
-    m_matrixDimension = matrixDimension;
-}
-
-double Fractal::radius() const
-{
-    return m_radius;
-}
-
-void Fractal::setRadius(const double radius)
-{
-    m_radius = radius;
-}
-
-double Fractal::power() const
-{
-    return m_power;
-}
-
-void Fractal::setPower(const double power)
-{
-    m_power = power;
-}
-
-QRectF Fractal::rectf() const
-{
-    return m_rectf;
-}
-
-void Fractal::setRect(const QRectF &rect)
-{
-    m_rectf = rect;
-}
-
-QImage Fractal::image() const
-{
-    return m_image;
-}
 
 void Fractal::calculate()
 {
