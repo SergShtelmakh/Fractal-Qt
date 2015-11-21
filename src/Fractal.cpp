@@ -27,61 +27,61 @@ Fractal::Fractal(QObject *parent)
 
 void Fractal::calculate()
 {
-    this->prepareToCalculate();
-    // Calculate
-    for (int i = 0; (i < m_matrixDimension)&&(m_isCalculationRunning); i++) {
+	this->prepareToCalculate();
+	// Calculate
+	for (int i = 0; (i < m_matrixDimension)&&(m_isCalculationRunning); i++) {
 		calcIterationMatrixLine(i);
-        emit progress(static_cast<int>((i + 1.0)*100.0/m_matrixDimension));
-    }
-    // If calculation successfully finished then print image
-    if (m_isCalculationRunning)
-        this->printFractal();
-    // Calcucation finished
-    emit calculateFinished();
+		emit progress(static_cast<int>((i + 1.0)*100.0/m_matrixDimension));
+	}
+	// If calculation successfully finished then print image
+	if (m_isCalculationRunning)
+		this->printFractal();
+	// Calcucation finished
+	emit calculateFinished();
 }
 
 void Fractal::stopCalculcation()
 {
-    m_isCalculationRunning = false;
+	m_isCalculationRunning = false;
 }
 
 void Fractal::prepareToCalculate()
 {
-    m_iterationMatrix.clear();
-    m_stepX = (m_rectf.right() - m_rectf.left())/m_matrixDimension;
-    m_stepY = (m_rectf.bottom() - m_rectf.top())/m_matrixDimension;
-    m_isCalculationRunning = true;
+	m_iterationMatrix.clear();
+	m_stepX = (m_rectf.right() - m_rectf.left())/m_matrixDimension;
+	m_stepY = (m_rectf.bottom() - m_rectf.top())/m_matrixDimension;
+	m_isCalculationRunning = true;
 }
 
 void Fractal::calcIterationMatrixLine(const int lineIndex)
 {
 	auto matrixLine = QVector<int>().fill(0, m_matrixDimension);
-    int *base = matrixLine.data();
-    // Concurrent calculation one line of pixel
+	int *base = matrixLine.data();
+	// Concurrent calculation one line of pixel
 	auto result =  QtConcurrent::map(matrixLine, [&lineIndex, &base, this](int &value) {
-        value = calcIterationCountAtPoint(m_rectf.left() + lineIndex*m_stepX, m_rectf.top() + (&value - base)*m_stepY);
-    });
-    result.waitForFinished();
+		value = calcIterationCountAtPoint(m_rectf.left() + lineIndex*m_stepX, m_rectf.top() + (&value - base)*m_stepY);
+	});
+	result.waitForFinished();
 	m_iterationMatrix.insert(lineIndex, matrixLine);
 }
 
 int Fractal::calcIterationCountAtPoint(const double x0, const double y0) const
 {
-    // Calculate iterations count for Mandelbrot's fractal at point (x0,y0)
-    long double vectorLength = 0;
-    long double x = 0;
-    long double y = 0;
-    long double fi;
-    long double vectorLengthToThePower;
-    int iteration;
-    for (iteration = 0; (iteration < m_maxIterationCount)&(vectorLength < m_radius); iteration++) {
+	// Calculate iterations count for Mandelbrot's fractal at point (x0,y0)
+	long double vectorLength = 0;
+	long double x = 0;
+	long double y = 0;
+	long double fi;
+	long double vectorLengthToThePower;
+	int iteration;
+	for (iteration = 0; (iteration < m_maxIterationCount)&(vectorLength < m_radius); iteration++) {
 		vectorLength = qSqrt(x*x + y*y);
-        fi = atan2(y, x);
-        vectorLengthToThePower = pow(vectorLength, m_power);
-        x = vectorLengthToThePower*(cos(fi*m_power)) + x0;
-        y = vectorLengthToThePower*(sin(fi*m_power)) + y0;
-    }
-    return iteration;
+		fi = atan2(y, x);
+		vectorLengthToThePower = pow(vectorLength, m_power);
+		x = vectorLengthToThePower*(cos(fi*m_power)) + x0;
+		y = vectorLengthToThePower*(sin(fi*m_power)) + y0;
+	}
+	return iteration;
 }
 
 void Fractal::printFractal()
@@ -92,10 +92,10 @@ void Fractal::printFractal()
 	};
 
 	auto image = QImage(m_matrixDimension, m_matrixDimension, QImage::Format_RGB32);
-    for (int i = 0; i < m_matrixDimension; i++) {
-        for (int j = 0; j < m_matrixDimension; j++) {
+	for (int i = 0; i < m_matrixDimension; i++) {
+		for (int j = 0; j < m_matrixDimension; j++) {
 			image.setPixel(i, j, getColor(i, j).rgb());
-        }
-    }
-    m_image = image;
+		}
+	}
+	m_image = image;
 }

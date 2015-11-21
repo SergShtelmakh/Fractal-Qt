@@ -17,19 +17,19 @@
 
 class Fractal: public QObject
 {
-    Q_OBJECT
+	Q_OBJECT
 
 public:
-    static const unsigned int MAX_ITERATION_COUNT = 10000;
-    static const unsigned int MAX_MATRIX_DIMENSION = 10000;
-    static const unsigned int MAX_RADIUS = 100;
-    static const unsigned int MAX_POWER = 100;
-    static const unsigned int MIN_ITERATION_COUNT = 0;
-    static const unsigned int MIN_MATRIX_DIMENSION = 0;
-    static const unsigned int MIN_RADIUS = 0;
-    static const unsigned int MIN_POWER = 1;
+	static const unsigned int MAX_ITERATION_COUNT = 10000;
+	static const unsigned int MAX_MATRIX_DIMENSION = 10000;
+	static const unsigned int MAX_RADIUS = 100;
+	static const unsigned int MAX_POWER = 100;
+	static const unsigned int MIN_ITERATION_COUNT = 0;
+	static const unsigned int MIN_MATRIX_DIMENSION = 0;
+	static const unsigned int MIN_RADIUS = 0;
+	static const unsigned int MIN_POWER = 1;
 
-    explicit Fractal(QObject *parent = 0);
+	explicit Fractal(QObject *parent = 0);
 
 	int maxIterationCount() const {	return m_maxIterationCount;	}
 	void setMaxIterationCount(const int maxIterationCount) { m_maxIterationCount = maxIterationCount; }
@@ -49,30 +49,30 @@ public:
 	QImage image() const { return m_image; }
 
 public slots:
-    void calculate();
-    void stopCalculcation();
+	void calculate();
+	void stopCalculcation();
 
 signals:
-    void calculateFinished();
-    void progress(int progress);
+	void calculateFinished();
+	void progress(int progress);
 
 private:
-    void prepareToCalculate();
+	void prepareToCalculate();
 	void calcIterationMatrixLine(const int lineIndex);
-    int calcIterationCountAtPoint(const double x0, const double y0) const;
+	int calcIterationCountAtPoint(const double x0, const double y0) const;
 	void printFractal();
 
-    int m_maxIterationCount;
-    int m_matrixDimension;
-    double m_radius;
-    double m_power;
-    QRectF m_rectf;
+	int m_maxIterationCount;
+	int m_matrixDimension;
+	double m_radius;
+	double m_power;
+	QRectF m_rectf;
 
-    double m_stepX;
-    double m_stepY;
-    QVector<QVector<int> > m_iterationMatrix;
-    QImage m_image;
-    bool m_isCalculationRunning;
+	double m_stepX;
+	double m_stepY;
+	QVector<QVector<int> > m_iterationMatrix;
+	QImage m_image;
+	bool m_isCalculationRunning;
 
 };
 

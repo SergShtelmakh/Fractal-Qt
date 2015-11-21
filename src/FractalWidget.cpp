@@ -16,31 +16,31 @@ FractalWidget::FractalWidget(QWidget *parent)
 
 void FractalWidget::setFractal(Fractal *fractal)
 {
-    m_fractal = fractal;
+	m_fractal = fractal;
 }
 
 void FractalWidget::setCalculateThread(QThread *calculateThread)
 {
-    m_calculateThread = calculateThread;
+	m_calculateThread = calculateThread;
 }
 
 void FractalWidget::paintFractalImage()
 {
-    m_fractalImage = m_fractal->image();
-    update();
+	m_fractalImage = m_fractal->image();
+	update();
 }
 
 void FractalWidget::paintEvent(QPaintEvent *event)
 {
-    QPainter painter(this);
-    painter.drawImage(rect(), m_fractalImage);
-    QWidget::paintEvent(event);
+	QPainter painter(this);
+	painter.drawImage(rect(), m_fractalImage);
+	QWidget::paintEvent(event);
 }
 
 void FractalWidget::mousePressEvent(QMouseEvent *event)
 {
-    if (m_calculateThread->isRunning())
-        return;
+	if (m_calculateThread->isRunning())
+		return;
 
 	switch (event->button()) {
 	case Qt::LeftButton:
@@ -53,7 +53,7 @@ void FractalWidget::mousePressEvent(QMouseEvent *event)
 		break;
 	}
 
-    QWidget::mousePressEvent(event);
+	QWidget::mousePressEvent(event);
 }
 
 void FractalWidget::increaseZoomRectF(const QPointF &localCenter)
@@ -82,5 +82,5 @@ QPointF FractalWidget::getCenterPointF(const QPointF &center)
 {
 	auto dx = m_fractal->rectf().width()/this->rect().width();
 	auto dy = m_fractal->rectf().height()/this->rect().height();
-    return QPointF(m_fractal->rectf().left() + center.x()*dx, m_fractal->rectf().top() + center.y()*dy);
+	return QPointF(m_fractal->rectf().left() + center.x()*dx, m_fractal->rectf().top() + center.y()*dy);
 }
