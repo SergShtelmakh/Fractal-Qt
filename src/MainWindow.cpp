@@ -1,8 +1,8 @@
 #include "MainWindow.h"
 #include "ui_MainWindow.h"
 
-#include "MandelbrotFractal.h"
-#include "JuliaFractal.h"
+#include "Fractals/MandelbrotFractal.h"
+#include "Fractals/JuliaFractal.h"
 
 #include <QRectF>
 #include <QThread>

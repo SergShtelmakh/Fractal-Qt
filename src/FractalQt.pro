@@ -13,16 +13,19 @@ TEMPLATE = app
 
 SOURCES += main.cpp\
         MainWindow.cpp \
-        Fractal.cpp \
-        MandelbrotFractal.cpp \
-        JuliaFractal.cpp \
-        ZoomWidget.cpp
+        ZoomWidget.cpp \
+        Fractals/Fractal.cpp \
+        Fractals/JuliaFractal.cpp \
+        Fractals/MandelbrotFractal.cpp
 
 HEADERS  += MainWindow.h \
         Fractal.h \
         MandelbrotFractal.h \
         JuliaFractal.h \
-        ZoomWidget.h
+        ZoomWidget.h \
+        Fractals/Fractal.h \
+        Fractals/JuliaFractal.h \
+        Fractals/MandelbrotFractal.h
 
 FORMS    += MainWindow.ui
 
