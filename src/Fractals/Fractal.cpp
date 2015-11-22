@@ -34,6 +34,8 @@ Fractal::Fractal(QObject *parent)
 	, m_rectf(cDefaultRectF)
 {}
 
+
+
 void Fractal::startCalculation()
 {
 	m_isCalculationRunning = true;

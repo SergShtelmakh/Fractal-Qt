@@ -32,8 +32,10 @@ private slots:
 	void on_updatePushButton_clicked();
 	void on_stopPushButton_clicked();
 	void onRectChanged(QRectF newRect);
+	void oncbFractalTypeIndexChanged(int index);
 
 private:
+	void initializeFractal();
 	void updateFractalProperty(const QRectF &rectf, const int matrixDimension, const double radius, const double power, const double maxIteration);
 
 	QScopedPointer<Ui::MainWindow> ui;

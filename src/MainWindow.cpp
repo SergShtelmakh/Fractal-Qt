@@ -40,25 +40,15 @@ namespace
 MainWindow::MainWindow(QWidget *parent)
 	: QMainWindow(parent)
 	, ui(new Ui::MainWindow)
-	, m_fractal(new JuliaFractal)
+	, m_fractal(new MandelbrotFractal)
 	, m_pCalculateThread(new QThread)
 {
 	ui->setupUi(this);
 
-	m_fractal->moveToThread(m_pCalculateThread);
-
-	connect(m_pCalculateThread, &QThread::started,           m_fractal.data(),   &Fractal::startCalculation);
-	connect(m_fractal.data(),   &Fractal::calculateFinished, m_pCalculateThread, &QThread::quit);
-	connect(m_fractal.data(),   &Fractal::calculateCanceled, m_pCalculateThread, &QThread::quit);
-
-	connect(m_fractal.data(), &Fractal::calculateStarted,  ui->fractalWidget, [this](){ui->fractalWidget->blockZoom(true); }, Qt::DirectConnection);
-	connect(m_fractal.data(), &Fractal::calculateFinished, ui->fractalWidget, [this](){ui->fractalWidget->blockZoom(false);}, Qt::DirectConnection);
-	connect(m_fractal.data(), &Fractal::calculateCanceled, ui->fractalWidget, [this](){ui->fractalWidget->blockZoom(false);}, Qt::DirectConnection);
-
-	connect(m_fractal.data(), &Fractal::print,    ui->fractalWidget, &ZoomWidget::paintImage);
-	connect(m_fractal.data(), &Fractal::progress, ui->progressBar,   &QProgressBar::setValue);
+	initializeFractal();
 
 	connect(ui->fractalWidget, &ZoomWidget::rectChanged, this, &MainWindow::onRectChanged);
+	connect(ui->cbFractalType, static_cast<void(QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this, &MainWindow::oncbFractalTypeIndexChanged);
 
 	m_pCalculateThread->start();
 }
@@ -147,6 +137,46 @@ void MainWindow::onRectChanged(QRectF newRect)
 
 	m_fractal->setRect(newRect);
 	m_pCalculateThread->start();
+}
+
+void MainWindow::oncbFractalTypeIndexChanged(int index)
+{
+	if (m_pCalculateThread->isRunning()) {
+		m_fractal->stopCalculcation();
+
+		QEventLoop e;
+		connect(m_fractal.data(), &Fractal::calculateCanceled, &e, [&e](){e.exit(0);});
+		e.exec();
+	}
+
+	switch (index) {
+	case 0:
+		m_fractal.reset(new MandelbrotFractal);
+		break;
+	case 1:
+		m_fractal.reset(new JuliaFractal);
+		break;
+	default:
+		return;
+	}
+	initializeFractal();
+	on_updatePushButton_clicked();
+}
+
+void MainWindow::initializeFractal()
+{
+	m_fractal->moveToThread(m_pCalculateThread);
+	connect(m_pCalculateThread, &QThread::started,           m_fractal.data(),   &Fractal::startCalculation);
+	connect(m_fractal.data(),   &Fractal::calculateFinished, m_pCalculateThread, &QThread::quit);
+	connect(m_fractal.data(),   &Fractal::calculateCanceled, m_pCalculateThread, &QThread::quit);
+
+	connect(m_fractal.data(), &Fractal::calculateStarted,  ui->fractalWidget, [this](){ui->fractalWidget->blockZoom(true); }, Qt::DirectConnection);
+	connect(m_fractal.data(), &Fractal::calculateFinished, ui->fractalWidget, [this](){ui->fractalWidget->blockZoom(false);}, Qt::DirectConnection);
+	connect(m_fractal.data(), &Fractal::calculateCanceled, ui->fractalWidget, [this](){ui->fractalWidget->blockZoom(false);}, Qt::DirectConnection);
+
+	connect(m_fractal.data(), &Fractal::print,    ui->fractalWidget, &ZoomWidget::paintImage);
+	connect(m_fractal.data(), &Fractal::progress, ui->progressBar,   &QProgressBar::setValue);
+
 }
 
 void MainWindow::updateFractalProperty(const QRectF &rectf, const int matrixDimension, const double radius, const double power, const double maxIteration)
