@@ -16,6 +16,9 @@ namespace
 	const QPair<double, double> cRadiusPair    = qMakePair(0.0, 100.0);
 	const QPair<double, double> cPowerPair     = qMakePair(0.0, 100.0);
 
+	const QString csInteger         = "Integer";
+	const QString csDouble          = "Double";
+
 	inline QString invalidTypeMessage(const QString &name, const QString &type)
 	{
 		return QString("%1 must be %2 type!").arg(name).arg(type);
@@ -82,40 +85,40 @@ void MainWindow::on_updatePushButton_clicked()
 
 	bool ok;
 	auto matrixDimension = ui->matrixDimensionLineEdit->text().toInt(&ok);
-	if (incorrectInputWarning(!ok, invalidTypeMessage("Matrix dimension", "Integer"))
+	if (incorrectInputWarning(!ok, invalidTypeMessage("Matrix dimension", csInteger))
 			|| incorrectInputWarning(!inBound(matrixDimension, cMatrixDimensionPair), notInBoundMessage("Matrix dimension", cMatrixDimensionPair)))
 		return;
 
 	auto radius = ui->radiusLineEdit->text().toDouble(&ok);
-	if (incorrectInputWarning(!ok, invalidTypeMessage("Radius", "Double"))
+	if (incorrectInputWarning(!ok, invalidTypeMessage("Radius", csDouble))
 			|| incorrectInputWarning(!inBound(radius, cRadiusPair), notInBoundMessage("Radius", cRadiusPair)))
 		return;
 
 	auto power = ui->powerLineEdit->text().toDouble(&ok);
-	if (incorrectInputWarning(!ok, invalidTypeMessage("Power", "Double"))
+	if (incorrectInputWarning(!ok, invalidTypeMessage("Power", csDouble))
 			|| incorrectInputWarning(!inBound(power, cPowerPair), notInBoundMessage("Power", cPowerPair)))
 		return;
 
 	auto maxIteration = ui->maxIterationLineEdit->text().toInt(&ok);
-	if (incorrectInputWarning(!ok, invalidTypeMessage("Max iteration", "Integer"))
+	if (incorrectInputWarning(!ok, invalidTypeMessage("Max iteration", csInteger))
 			|| incorrectInputWarning(!inBound(maxIteration, cMaxIterationPair), notInBoundMessage("Max iteration", cMaxIterationPair)))
 		return;
 
 
 	auto top = -ui->topLineEdit->text().toDouble(&ok);
-	if (incorrectInputWarning(!ok, invalidTypeMessage("Top",   "Double")))
+	if (incorrectInputWarning(!ok, invalidTypeMessage("Top",   csDouble)))
 		return;
 
 	auto left = ui->leftLineEdit->text().toDouble(&ok);
-	if (incorrectInputWarning(!ok, invalidTypeMessage("Left",  "Double")))
+	if (incorrectInputWarning(!ok, invalidTypeMessage("Left",  csDouble)))
 		return;
 
 	auto right = ui->rightLineEdit->text().toDouble(&ok);
-	if (incorrectInputWarning(!ok, invalidTypeMessage("Right", "Double")))
+	if (incorrectInputWarning(!ok, invalidTypeMessage("Right", csDouble)))
 		return;
 
 	auto bottom = -ui->bottomLineEdit->text().toDouble(&ok);
-	if (incorrectInputWarning(!ok, invalidTypeMessage("Bottom","Double")))
+	if (incorrectInputWarning(!ok, invalidTypeMessage("Bottom",csDouble)))
 		return;
 
 	auto height = bottom - top;
