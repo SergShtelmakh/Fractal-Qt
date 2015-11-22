@@ -41,14 +41,14 @@ MainWindow::MainWindow(QWidget *parent)
 	m_fractal->moveToThread(m_calculateThread);
 
 	connect(m_calculateThread, &QThread::started, m_fractal, &Fractal::startCalculation);
+	connect(m_fractal, &Fractal::calculateStarted, ui->fractalWidget, [this]() {ui->fractalWidget->blockZoom(true);}, Qt::DirectConnection);
+	connect(m_fractal, &Fractal::calculateFinished, ui->fractalWidget, [this](){ui->fractalWidget->blockZoom(false);}, Qt::DirectConnection);
+	connect(m_fractal, &Fractal::calculateCanceled, ui->fractalWidget, [this](){ui->fractalWidget->blockZoom(false);}, Qt::DirectConnection);
 	connect(m_fractal, &Fractal::calculateFinished, m_calculateThread, &QThread::quit);
 	connect(m_fractal, &Fractal::calculateCanceled, m_calculateThread, &QThread::quit);
-	connect(m_fractal, &Fractal::print, ui->fractalWidget, &FractalWidget::paintFractalImage);
+	connect(m_fractal, &Fractal::print, ui->fractalWidget, &ZoomWidget::paintImage);
 	connect(m_fractal, &Fractal::progress, ui->progressBar, &QProgressBar::setValue);
-	connect(ui->fractalWidget, &FractalWidget::rectChanged, this, &MainWindow::onRectChanged);
-
-	ui->fractalWidget->setFractal(m_fractal);
-	ui->fractalWidget->setCalculateThread(m_calculateThread);
+	connect(ui->fractalWidget, &ZoomWidget::rectChanged, this, &MainWindow::onRectChanged);
 
 	m_calculateThread->start();
 }
@@ -122,6 +122,8 @@ void MainWindow::onRectChanged(QRectF newRect)
 	ui->bottomLineEdit->setText(QString("%1").arg(-newRect.bottom()));
 	ui->leftLineEdit->setText(QString("%1").arg(newRect.left()));
 	ui->rightLineEdit->setText(QString("%1").arg(newRect.right()));
+	m_fractal->setRect(newRect);
+	m_calculateThread->start();
 }
 
 void MainWindow::updateFractalProperty(const QRectF &rectf, const int matrixDimension, const double radius, const double power, const double maxIteration) const

@@ -43,6 +43,7 @@ public slots:
 	void stopCalculcation();
 
 signals:
+	void calculateStarted();
 	void calculateFinished();
 	void calculateCanceled();
 	void progress(int progress);

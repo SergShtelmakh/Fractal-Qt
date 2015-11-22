@@ -365,7 +365,7 @@
      </layout>
     </item>
     <item>
-     <widget class="FractalWidget" name="fractalWidget" native="true">
+     <widget class="ZoomWidget" name="fractalWidget" native="true">
       <property name="sizePolicy">
        <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
         <horstretch>0</horstretch>
@@ -380,9 +380,9 @@
  <layoutdefault spacing="6" margin="11"/>
  <customwidgets>
   <customwidget>
-   <class>FractalWidget</class>
+   <class>ZoomWidget</class>
    <extends>QWidget</extends>
-   <header>FractalWidget.h</header>
+   <header>ZoomWidget.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

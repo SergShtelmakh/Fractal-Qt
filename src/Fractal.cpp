@@ -42,6 +42,8 @@ void Fractal::startCalculation()
 	m_stepX = (m_rectf.right()  - m_rectf.left())/m_matrixDimension;
 	m_stepY = (m_rectf.bottom() - m_rectf.top()) /m_matrixDimension;
 
+	emit calculateStarted();
+
 	for (auto i = 0; i < m_matrixDimension; i++) {
 		if (!m_isCalculationRunning) {
 			emit calculateCanceled();
