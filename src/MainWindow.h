@@ -34,14 +34,12 @@ private slots:
 	void onRectChanged(QRectF newRect);
 
 private:
-	void updateFractalProperty(const QRectF &rectf, const int matrixDimension, const double radius, const double power, const double maxIteration) const;
-	bool isErrorExist(const bool ok, const QString valueName, const QString typeName, const int value, const int min, const int max);
-	bool isErrorExist(const bool ok, const QString valueName, const QString typeName);
+	void updateFractalProperty(const QRectF &rectf, const int matrixDimension, const double radius, const double power, const double maxIteration);
 
-	Ui::MainWindow *ui;
-	Fractal *m_fractal;
-	QThread *m_calculateThread;
+	QScopedPointer<Ui::MainWindow> ui;
+	QScopedPointer<Fractal> m_fractal;
 
+	QThread *m_pCalculateThread;
 };
 
 #endif // MAINWINDOW_H
